@@ -17,7 +17,7 @@ realEstateRouter.route('/')
             .then((realEstate) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(realEstate);
+                res.json({ realEstate });
             }, (err) => next(err))
             .catch((err) => next(err));
     })
@@ -57,7 +57,7 @@ realEstateRouter.route('/:raelEstateId')
             .then((realEstate) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(realEstate);
+                res.json({realEstate});
             }, (err) => next(err))
             .catch((err) => next(err));
     })
@@ -65,14 +65,14 @@ realEstateRouter.route('/:raelEstateId')
         res.statusCode = 403;
         res.end('POST operation not supported on /raelEstate/' + req.params.raelEstateId);
     })
-    .put(authenticate.verifyUser, authenticate.verifyOwner ,(req, res, next) => {
-            RealEstate.findByIdAndUpdate(req.params.raelEstateId, { $set: req.body }, { new: true })
-                .then((raelEstate) => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(raelEstate);
-                }, (err) => next(err))
-                .catch((err) => next(err));
+    .put(authenticate.verifyUser, authenticate.verifyOwner, (req, res, next) => {
+        RealEstate.findByIdAndUpdate(req.params.raelEstateId, { $set: req.body }, { new: true })
+            .then((raelEstate) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(raelEstate);
+            }, (err) => next(err))
+            .catch((err) => next(err));
     })
 
     .delete(authenticate.verifyUser, (req, res, next) => {
@@ -94,7 +94,7 @@ realEstateRouter.route('/:raelEstateId/comments')
                 if (raelEstate != null) {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.json(raelEstate.comments);
+                    res.json({ comments: raelEstate.comments });
                 }
                 else {
                     err = new Error('Rael Estate ' + req.params.raelEstateId + ' not found');

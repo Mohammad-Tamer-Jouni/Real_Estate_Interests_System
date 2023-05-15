@@ -8,8 +8,7 @@ const favoriteSchema = new Schema({
     realEstate: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RealEstate'
-    }
-    ]
+    }]
 }, {
     timestamps: true
 });
