@@ -89,7 +89,7 @@ realEstateRouter.route('/:raelEstateId/comments')
     .options((req, res) => { res.sendStatus(200); })
     .get((req, res, next) => {
         RealEstate.findById(req.params.raelEstateId)
-            .populate('comments.auther')
+            .populate('comments.author')
             .then((raelEstate) => {
                 if (raelEstate != null) {
                     res.statusCode = 200;
@@ -163,7 +163,7 @@ realEstateRouter.route('/:raelEstateId/comments/:commentId')
     .options((req, res) => { res.sendStatus(200); })
     .get((req, res, next) => {
         RealEstate.findById(req.params.raelEstateId)
-            .populate('comments.auther')
+            .populate('comments.author')
             .then((raelEstate) => {
                 if (raelEstate != null && raelEstate.comments.id(req.params.commentId) != null) {
                     res.statusCode = 200;
