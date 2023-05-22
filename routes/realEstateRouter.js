@@ -14,6 +14,7 @@ realEstateRouter.route('/')
     .get((req, res, next) => {
         RealEstate.find(req.query)
             .populate('comments.author')
+            .populate('owner')
             .then((realEstate) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
@@ -57,7 +58,7 @@ realEstateRouter.route('/:raelEstateId')
             .then((realEstate) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json({realEstate});
+                res.json({ realEstate });
             }, (err) => next(err))
             .catch((err) => next(err));
     })
