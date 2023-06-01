@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var realEstateRouter = require('./routes/realEstateRouter')
 var favoriteRouter = require('./routes/favoriteRouter');
+const uploadRouter = require('./routes/uploadRouter');
 
 const mongoose = require('mongoose');
 
@@ -54,6 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/realEstate', realEstateRouter)
 app.use('/favorites', favoriteRouter);
+app.use('/imageUpload',uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
