@@ -13,8 +13,12 @@ realEstateRouter.route('/')
     .options((req, res) => { res.sendStatus(200); })
     .get((req, res, next) => {
         RealEstate.find(req.query)
-            .populate('comments.author')
-            .populate('owner')
+            .populate({
+                path: 'comments.author',
+                select: '-_id -__v' // استبعاد حقلي _id و __v من النتائج
+            })
+            .populate('owner', '-_id -__v') // استبعاد حقلي _id و __v من النتائج
+            .select('-comments') // استبعاد حقل التعليقات من النتائج
             .then((realEstate) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');

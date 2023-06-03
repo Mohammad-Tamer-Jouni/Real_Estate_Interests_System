@@ -14,11 +14,17 @@ favoriteRouter.route('/')
     .get(authenticate.verifyUser, (req, res, next) => {
         Favorites.findOne({ user: req.user._id })
             .populate('user')
-            .populate('realEstate')
+            .populate({
+                path: 'realEstate',
+                populate: {
+                    path: 'owner',
+                    model: 'User'
+                }
+            })
             .then((favorites) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(favorites);
+                res.json({ favorites });
             }, (err) => next(err))
             .catch((err) => next(err));
     })
@@ -148,5 +154,17 @@ favoriteRouter.route('/:realEstateId')
             }, (err) => next(err))
             .catch((err) => next(err))
     })
+
+    favoriteRouter.route('/:realEstateId/isFavorite')
+    .get(authenticate.verifyUser, (req, res, next) => {
+        Favorites.findOne({ user: req.user._id, realEstate: req.params.realEstateId })
+            .then((favorite) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json({ isFavorite: favorite !== null });
+            })
+            .catch((err) => next(err));
+    });
+
 
 module.exports = favoriteRouter;
